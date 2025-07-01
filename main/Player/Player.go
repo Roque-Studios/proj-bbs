@@ -1,3 +1,7 @@
+components {
+  id: "Player"
+  component: "/main/Player/Player.script"
+}
 embedded_components {
   id: "sprite"
   type: "sprite"
