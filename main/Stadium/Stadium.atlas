@@ -1,0 +1,4 @@
+images {
+  image: "/assets/background/Green_Nebula_08-1024x1024.png"
+}
+extrude_borders: 2
