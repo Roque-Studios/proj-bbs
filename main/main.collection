@@ -12,6 +12,15 @@ instances {
     z: 1.0
   }
 }
+instances {
+  id: "Ball"
+  prototype: "/main/Ball/Ball.go"
+  position {
+    x: 769.0
+    y: 540.0
+    z: 1.0
+  }
+}
 collection_instances {
   id: "level_bounds"
   collection: "/main/Stadium/level_bounds.collection"

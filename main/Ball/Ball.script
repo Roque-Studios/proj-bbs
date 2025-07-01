@@ -1,0 +1,112 @@
+local CRITICAL_THRESHOLD = 19
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	self.correction = vmath.vector3()
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	self.correction = vmath.vector3()
+	if self.velocity then
+		local pos = go.get_position()
+		pos = pos + self.velocity * dt
+		go.set_position(pos)
+	end
+end
+
+local function apply_random_pulse(self, base_direction)
+	local angle_offset = math.random(-30, 30)  -- degrees of random deviation
+	local radians = math.rad(angle_offset)
+
+	-- Rotate the base_direction randomly
+	local dir = vmath.rotate(vmath.quat_rotation_z(radians), base_direction)
+	dir = vmath.normalize(dir)
+
+	local force = 500  -- Tune this value
+	local critical = math.random(1,20)
+	if critical >= CRITICAL_THRESHOLD then
+		print("Critical!")
+		force = 500 * critical
+	end
+	self.velocity = dir * force
+end
+
+
+function fixed_update(self, dt)
+	-- This function is called if 'Fixed Update Frequency' is enabled in the Engine section of game.project
+	-- Can be coupled with fixed updates of the physics simulation if 'Use Fixed Timestep' is enabled in
+	-- Physics section of game.project
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+	-- Handle collision
+	if message_id == hash("contact_point_response") then
+		-- Get the info needed to move out of collision. We might
+		-- get several contact points back and have to calculate
+		-- how to move out of all of them by accumulating a
+		-- correction vector for this frame:
+		if message.distance > 0 then
+			-- First, project the accumulated correction onto
+			-- the penetration vector
+			local proj = vmath.project(self.correction, message.normal * message.distance)
+			if proj < 1 then
+				-- Only care for projections that does not overshoot.
+				local comp = (message.distance - message.distance * proj) * message.normal
+				-- Apply compensation
+				go.set_position(go.get_position() + comp)
+				-- Accumulate correction done
+				self.correction = self.correction + comp
+			end
+		end
+	end
+	local wall_id = message.other_id  -- this is already a hash
+
+	if wall_id == hash("/level_bounds/top_wall") then
+		apply_random_pulse(self, vmath.vector3(0, -1, 0))
+		-- print("Top wall")
+	elseif wall_id == hash("/level_bounds/bottom_wall") then
+		apply_random_pulse(self, vmath.vector3(0, 1, 0))
+		-- print("Bottom Wall")
+	elseif wall_id == hash("/level_bounds/left_wall") then
+		apply_random_pulse(self, vmath.vector3(1, 0, 0))
+		-- print("Left wall")
+	elseif wall_id == hash("/level_bounds/right_wall") then
+		apply_random_pulse(self, vmath.vector3(-1, 0, 0))
+		-- print("Right wall")
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
