@@ -7,7 +7,13 @@ instances {
   id: "Player"
   prototype: "/main/Player/Player.go"
   position {
+    x: 378.0
+    y: 565.0
     z: 1.0
   }
+}
+collection_instances {
+  id: "level_bounds"
+  collection: "/main/Stadium/level_bounds.collection"
 }
 scale_along_z: 0

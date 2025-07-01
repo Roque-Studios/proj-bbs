@@ -43,9 +43,10 @@ package = com.roquestudios.bbs
 shared_state = 1
 
 [physics]
-gravity_y = -1000.0
+gravity_y = 0.0
 scale = 0.01
 velocity_threshold = 100.0
+debug = 0
 
 [html5]
 scale_mode = stretch
