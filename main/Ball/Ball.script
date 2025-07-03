@@ -5,6 +5,8 @@ function init(self)
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 	self.correction = vmath.vector3()
+	self.touching_player = false
+	self.touching_player = false
 end
 
 function final(self)
@@ -57,6 +59,7 @@ function on_message(self, message_id, message, sender)
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
 	-- Handle collision
+	-- The following could be useful in the future.
 	if message_id == hash("contact_point_response") then
 		-- Get the info needed to move out of collision. We might
 		-- get several contact points back and have to calculate
@@ -76,6 +79,7 @@ function on_message(self, message_id, message, sender)
 			end
 		end
 	end
+	
 	local wall_id = message.other_id  -- this is already a hash
 
 	if wall_id == hash("/level_bounds/top_wall") then
@@ -90,6 +94,10 @@ function on_message(self, message_id, message, sender)
 	elseif wall_id == hash("/level_bounds/right_wall") then
 		apply_random_pulse(self, vmath.vector3(-1, 0, 0))
 		-- print("Right wall")
+	end
+
+	if message_id == hash("try_hit") then
+		print("Hit the ball")
 	end
 end
 

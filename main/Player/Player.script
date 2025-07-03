@@ -1,3 +1,4 @@
+
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
@@ -6,6 +7,8 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.direction = vmath.vector3()  -- current direction
 	self.speed = 1000
+	self.touching_ball = false
+	self.touching_player_timer = 0
 end
 
 function final(self)
@@ -18,12 +21,22 @@ function update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+
+	if self.touching_player_timer > 0 then
+		self.touching_player_timer = self.touching_player_timer - dt
+		if self.touching_player_timer <= 0 then
+			self.touching_ball = false
+		end
+	end
+	
 	if self.direction.x ~= 0 or self.direction.y ~= 0 then
 		local dir = vmath.normalize(self.direction)
 		local pos = go.get_position()
 		pos = pos + dir * self.speed * dt
 		go.set_position(pos)
 	end
+	-- self.touching_ball = false
+	
 end
 
 function fixed_update(self, dt)
@@ -39,6 +52,12 @@ function on_message(self, message_id, message, sender)
 	-- Add message-handling code here
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
+	if message_id == hash("collision_response") then
+		if message.other_id == hash("/Ball") then
+			self.touching_ball = true
+			self.touching_player_timer = 0.1
+		end
+	end
 end
 
 function on_input(self, action_id, action)
@@ -60,6 +79,12 @@ function on_input(self, action_id, action)
 	elseif action_id == hash("right") then
 		self.direction.x = action.pressed and 1 or (action.released and 0 or self.direction.x)
 	end
+
+	if action_id == hash("hit") and self.touching_ball then
+		-- Send a message to the ball GO to attempt a hit
+		msg.post("/Ball#Ball", "try_hit")
+	end
+	
 end
 
 function on_reload(self)
