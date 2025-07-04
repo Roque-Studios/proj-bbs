@@ -1,4 +1,5 @@
 local CRITICAL_THRESHOLD = 19
+local force = 800
 
 function init(self)
 	-- Add initialization code here
@@ -84,20 +85,19 @@ function on_message(self, message_id, message, sender)
 
 	if wall_id == hash("/level_bounds/top_wall") then
 		apply_random_pulse(self, vmath.vector3(0, -1, 0))
-		-- print("Top wall")
 	elseif wall_id == hash("/level_bounds/bottom_wall") then
 		apply_random_pulse(self, vmath.vector3(0, 1, 0))
-		-- print("Bottom Wall")
 	elseif wall_id == hash("/level_bounds/left_wall") then
 		apply_random_pulse(self, vmath.vector3(1, 0, 0))
-		-- print("Left wall")
 	elseif wall_id == hash("/level_bounds/right_wall") then
 		apply_random_pulse(self, vmath.vector3(-1, 0, 0))
-		-- print("Right wall")
 	end
 
 	if message_id == hash("try_hit") then
-		print("Hit the ball")
+		local player_pos = go.get_position(sender)
+		local ball_pos = go.get_position()
+		local dir = vmath.normalize(ball_pos - player_pos)
+		self.velocity = dir * force
 	end
 end
 
