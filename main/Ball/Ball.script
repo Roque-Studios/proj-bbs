@@ -2,12 +2,13 @@ local CRITICAL_THRESHOLD = 19
 local force = 800
 
 function init(self)
+	-- print("Ball: ", msg.url())
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 	self.correction = vmath.vector3()
 	self.touching_player = false
-	self.touching_player = false
+	self.last_hit = ""
 end
 
 function final(self)
@@ -82,7 +83,7 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("trigger_response") then
-		print("GOALLL!!!")
+		msg.post("/HUD/go#HUD", "update_score", {who = self.last_hit})
 	end
 	
 	local wall_id = message.other_id  -- this is already a hash
@@ -102,6 +103,7 @@ function on_message(self, message_id, message, sender)
 		local ball_pos = go.get_position()
 		local dir = vmath.normalize(ball_pos - player_pos)
 		self.velocity = dir * force
+		self.last_hit = message.who
 	end
 end
 

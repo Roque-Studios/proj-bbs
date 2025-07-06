@@ -25,4 +25,12 @@ collection_instances {
   id: "level_bounds"
   collection: "/main/Stadium/level_bounds.collection"
 }
+collection_instances {
+  id: "HUD"
+  collection: "/main/UI/HUD.collection"
+  position {
+    x: 370.0
+    y: 305.0
+  }
+}
 scale_along_z: 0

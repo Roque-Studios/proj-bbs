@@ -1,0 +1,52 @@
+script: "/main/UI/controller.gui_script"
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+nodes {
+  position {
+    x: 349.0
+    y: 643.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "default"
+  id: "ai_score"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 944.0
+    y: 643.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "default"
+  id: "player_score"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 652.0
+    y: 643.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "default"
+  id: "timer"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
