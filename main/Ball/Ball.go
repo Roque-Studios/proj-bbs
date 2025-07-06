@@ -23,6 +23,7 @@ embedded_components {
   "group: \"ball\"\n"
   "mask: \"player\"\n"
   "mask: \"walls\"\n"
+  "mask: \"goal\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_SPHERE\n"
