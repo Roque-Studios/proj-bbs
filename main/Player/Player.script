@@ -82,7 +82,7 @@ function on_input(self, action_id, action)
 
 	if action_id == hash("hit") and self.touching_ball then
 		-- Send a message to the ball GO to attempt a hit
-		msg.post("/Ball#Ball", "try_hit", {who = "player"})
+		msg.post("/Ball#Ball", "try_hit", {who = "Player"})
 	end
 	
 end

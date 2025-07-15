@@ -24,6 +24,7 @@ embedded_components {
   "mask: \"player\"\n"
   "mask: \"walls\"\n"
   "mask: \"goal\"\n"
+  "mask: \"IA\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_SPHERE\n"

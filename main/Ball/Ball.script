@@ -1,14 +1,15 @@
 local CRITICAL_THRESHOLD = 19
-local force = 800
 
 function init(self)
-	-- print("Ball: ", msg.url())
+	print("Ball: ", msg.url())
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 	self.correction = vmath.vector3()
 	self.touching_player = false
 	self.last_hit = ""
+	self.width = tonumber(sys.get_config("display.width"))
+	self.height = tonumber(sys.get_config("display.height"))
 end
 
 function final(self)
@@ -21,6 +22,7 @@ function update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+	-- print(go.get_position())
 	self.correction = vmath.vector3()
 	if self.velocity then
 		local pos = go.get_position()
@@ -29,7 +31,7 @@ function update(self, dt)
 	end
 end
 
-local function apply_random_pulse(self, base_direction)
+local function apply_random_pulse(self, base_direction, force)
 	local angle_offset = math.random(-30, 30)  -- degrees of random deviation
 	local radians = math.rad(angle_offset)
 
@@ -37,11 +39,10 @@ local function apply_random_pulse(self, base_direction)
 	local dir = vmath.rotate(vmath.quat_rotation_z(radians), base_direction)
 	dir = vmath.normalize(dir)
 
-	local force = 500  -- Tune this value
 	local critical = math.random(1,20)
 	if critical >= CRITICAL_THRESHOLD then
 		print("Critical!")
-		force = 500 * critical
+		force = force * critical
 	end
 	self.velocity = dir * force
 end
@@ -83,26 +84,31 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("trigger_response") then
-		msg.post("/HUD/go#HUD", "update_score", {who = self.last_hit})
+		if message.enter then
+			msg.post("/HUD/go#HUD", "update_score", {who = self.last_hit})
+			-- Play some goal sound
+			apply_random_pulse(self, vmath.vector3(1, 0, 0), 1000)
+		end
+		
 	end
 	
 	local wall_id = message.other_id  -- this is already a hash
 
 	if wall_id == hash("/level_bounds/top_wall") then
-		apply_random_pulse(self, vmath.vector3(0, -1, 0))
+		apply_random_pulse(self, vmath.vector3(0, -1, 0), 800)
 	elseif wall_id == hash("/level_bounds/bottom_wall") then
-		apply_random_pulse(self, vmath.vector3(0, 1, 0))
+		apply_random_pulse(self, vmath.vector3(0, 1, 0), 800)
 	elseif wall_id == hash("/level_bounds/left_wall") then
-		apply_random_pulse(self, vmath.vector3(1, 0, 0))
+		apply_random_pulse(self, vmath.vector3(1, 0, 0), 800)
 	elseif wall_id == hash("/level_bounds/right_wall") then
-		apply_random_pulse(self, vmath.vector3(-1, 0, 0))
+		apply_random_pulse(self, vmath.vector3(-1, 0, 0), 800)
 	end
 
 	if message_id == hash("try_hit") then
 		local player_pos = go.get_position(sender)
 		local ball_pos = go.get_position()
 		local dir = vmath.normalize(ball_pos - player_pos)
-		self.velocity = dir * force
+		self.velocity = dir * 800
 		self.last_hit = message.who
 	end
 end

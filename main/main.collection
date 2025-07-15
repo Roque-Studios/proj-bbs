@@ -21,6 +21,15 @@ instances {
     z: 1.0
   }
 }
+instances {
+  id: "IA"
+  prototype: "/main/IA/IA.go"
+  position {
+    x: 983.0
+    y: 339.0
+    z: 1.0
+  }
+}
 collection_instances {
   id: "level_bounds"
   collection: "/main/Stadium/level_bounds.collection"
