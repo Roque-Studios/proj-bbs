@@ -1,0 +1,26 @@
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+local function stop_match()
+	msg.post("/Ball#Ball", "stop")
+	msg.post("/Player#Player", "stop")
+	msg.post("/IA#IA", "stop")
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+	if message_id == hash("stop") then
+		stop_match()
+	end
+end

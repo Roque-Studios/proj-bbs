@@ -1,3 +1,5 @@
+local match_duration = 20
+
 function init(self)
 	self.match_timer = 0
 	local interval = 1
@@ -24,6 +26,17 @@ function update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+	if self.match_timer == match_duration then
+		timer.cancel(self.timer)
+		local result_node = gui.get_node("result")
+		-- send message 
+		if self.player_score > self.ai_score then
+			gui.set_text(result_node, "VICTORY") --TODO: Change later
+		else
+			gui.set_text(result_node, "DEFEAT") --TODO: Change later
+		end
+		msg.post("/Match#Manager", "stop")
+	end
 	
 end
 
@@ -32,7 +45,6 @@ function on_message(self, message_id, message, sender)
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
 	if message_id == hash("update_score") then
-		print(message.who)
 		if message.who == "Player" then
 			self.player_score = self.player_score + 1
 			gui.set_text(self.player_node, self.player_score)

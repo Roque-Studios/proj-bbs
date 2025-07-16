@@ -58,6 +58,11 @@ function on_message(self, message_id, message, sender)
 			self.touching_player_timer = 0.1
 		end
 	end
+
+	if message_id == hash("stop") then
+		self.direction.x = 0
+		self.direction.y = 0
+	end
 end
 
 function on_input(self, action_id, action)

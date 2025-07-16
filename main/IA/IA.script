@@ -6,20 +6,23 @@ function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+	self.move = true
 end
 
 function update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
-	local position = go.get_position()
-	local ball_position = go.get_world_position(ball_go)
-	local distance = vmath.length(position - ball_position)
-	if distance > max_distance then
-		local direction = vmath.normalize(ball_position - position)
-		go.set_position(position + direction * speed * dt)
-	else
-		msg.post("/Ball#Ball", "try_hit", {who = "IA"})
+	if self.move then
+		local position = go.get_position()
+		local ball_position = go.get_world_position(ball_go)
+		local distance = vmath.length(position - ball_position)
+		if distance > max_distance then
+			local direction = vmath.normalize(ball_position - position)
+			go.set_position(position + direction * speed * dt)
+		else
+			msg.post("/Ball#Ball", "try_hit", {who = "IA"})
+		end
 	end
 end
 
@@ -27,6 +30,9 @@ function on_message(self, message_id, message, sender)
 	-- Add message-handling code here
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
+	if message_id == hash("stop") then
+		self.move = false
+	end
 end
 
 function on_input(self, action_id, action)

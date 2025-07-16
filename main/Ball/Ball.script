@@ -1,7 +1,7 @@
 local CRITICAL_THRESHOLD = 19
 
 function init(self)
-	print("Ball: ", msg.url())
+	-- print("Ball: ", msg.url())
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
@@ -41,7 +41,6 @@ local function apply_random_pulse(self, base_direction, force)
 
 	local critical = math.random(1,20)
 	if critical >= CRITICAL_THRESHOLD then
-		print("Critical!")
 		force = force * critical
 	end
 	self.velocity = dir * force
@@ -81,6 +80,10 @@ function on_message(self, message_id, message, sender)
 				self.correction = self.correction + comp
 			end
 		end
+	end
+
+	if message_id == hash("stop") then
+		self.velocity = nil
 	end
 
 	if message_id == hash("trigger_response") then

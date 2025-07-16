@@ -48,5 +48,25 @@ nodes {
   id: "timer"
   inherit_alpha: true
 }
+nodes {
+  position {
+    x: 651.0
+    y: 337.0
+  }
+  scale {
+    x: 3.042157
+    y: 2.799941
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "\n"
+  ""
+  font: "default"
+  id: "result"
+  inherit_alpha: true
+}
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
