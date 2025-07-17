@@ -1,0 +1,5 @@
+font: "/assets/Font/ThaleahFat.ttf"
+material: "/builtins/fonts/font.material"
+size: 25
+all_chars: true
+characters: " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"

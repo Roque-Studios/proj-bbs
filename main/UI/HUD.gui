@@ -68,5 +68,23 @@ nodes {
   id: "result"
   inherit_alpha: true
 }
+nodes {
+  position {
+    x: 1156.0
+    y: 652.0
+  }
+  scale {
+    x: 0.176857
+    y: 0.301125
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "exit"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

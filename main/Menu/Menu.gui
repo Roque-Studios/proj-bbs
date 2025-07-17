@@ -1,0 +1,75 @@
+script: "/main/Menu/MenuControllerGUI.gui_script"
+fonts {
+  name: "main"
+  font: "/main/Menu/main.font"
+}
+nodes {
+  position {
+    x: 635.0
+    y: 485.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "quickplay"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 635.0
+    y: 305.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "exit"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 634.0
+    y: 486.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "QUICK PLAY"
+  font: "main"
+  id: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 636.0
+    y: 305.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "EXIT"
+  font: "main"
+  id: "text1"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
