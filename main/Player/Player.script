@@ -9,6 +9,8 @@ function init(self)
 	self.speed = 1000
 	self.touching_ball = false
 	self.touching_player_timer = 0
+	self.is_rooted = false
+	self.is_slowed = false
 end
 
 function final(self)
@@ -28,24 +30,29 @@ function update(self, dt)
 			self.touching_ball = false
 		end
 	end
-	
-	if self.direction.x ~= 0 or self.direction.y ~= 0 then
-		local dir = vmath.normalize(self.direction)
-		local pos = go.get_position()
-		pos = pos + dir * self.speed * dt
-		go.set_position(pos)
+
+	if not self.is_rooted then
+		if self.direction.x ~= 0 or self.direction.y ~= 0 then
+			local dir = vmath.normalize(self.direction)
+			local pos = go.get_position()
+			local speed = self.speed
+			if self.is_slowed then
+				speed = speed * 0.5
+			end
+			pos = pos + dir * speed * dt
+			go.set_position(pos)
+		end
 	end
-	-- self.touching_ball = false
-	
 end
 
-function fixed_update(self, dt)
-	-- This function is called if 'Fixed Update Frequency' is enabled in the Engine section of game.project
-	-- Can be coupled with fixed updates of the physics simulation if 'Use Fixed Timestep' is enabled in
-	-- Physics section of game.project
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+local function apply_item_effect(self, item_type, duration)
+	if item_type == "root" then
+		self.is_rooted = true
+		timer.delay(duration, false, function() self.is_rooted = false end)
+	elseif item_type == "slow" then
+		self.is_slowed = true
+		timer.delay(duration, false, function() self.is_slowed = false end)
+	end
 end
 
 function on_message(self, message_id, message, sender)
@@ -63,6 +70,16 @@ function on_message(self, message_id, message, sender)
 		self.direction.x = 0
 		self.direction.y = 0
 	end
+
+	if message_id == hash("root") then
+		print("PLAYER ROOTED")
+		apply_item_effect(self, "root", message.duration)
+	end
+
+	if message_id == hash("slow") then
+		print("PLAYER SLOWED")
+		apply_item_effect(self, "slow", message.duration)
+	end 
 end
 
 function on_input(self, action_id, action)

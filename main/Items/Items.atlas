@@ -1,0 +1,19 @@
+images {
+  image: "/assets/Items/poop.png"
+}
+images {
+  image: "/assets/Items/piss.png"
+}
+images {
+  image: "/assets/Items/14.png"
+}
+images {
+  image: "/assets/Items/15.png"
+}
+images {
+  image: "/assets/Items/poop_2.png"
+}
+images {
+  image: "/assets/Items/piss_2.png"
+}
+extrude_borders: 2

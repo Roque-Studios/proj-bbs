@@ -1,23 +1,39 @@
 local ball_go = "/Ball#Ball"
 local max_distance = 140
-local speed = 50
-
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 	self.move = true
+	self.speed = 50
+	self.is_rooted = false
+	self.is_slowed = false
 end
+
+local function apply_item_effect(self, item_type, duration)
+	if item_type == "root" then
+		self.is_rooted = true
+		timer.delay(duration, false, function() self.is_rooted = false end)
+	elseif item_type == "slow" then
+		self.is_slowed = true
+		timer.delay(duration, false, function() self.is_slowed = false end)
+	end
+end
+
 
 function update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
-	if self.move then
+	if self.move and not self.is_rooted then
 		local position = go.get_position()
 		local ball_position = go.get_world_position(ball_go)
 		local distance = vmath.length(position - ball_position)
 		if distance > max_distance then
+			local speed = self.speed
+			if self.is_slowed then
+				speed = speed * 0.5
+			end
 			local direction = vmath.normalize(ball_position - position)
 			go.set_position(position + direction * speed * dt)
 		else
@@ -32,6 +48,16 @@ function on_message(self, message_id, message, sender)
 	-- Remove this function if not needed
 	if message_id == hash("stop") then
 		self.move = false
+	end
+
+	if message_id == hash("root") then
+		print("IA ROOTED")
+		apply_item_effect(self, "root", message.duration)
+	end
+
+	if message_id == hash("slow") then
+		print("IA SLOWED")
+		apply_item_effect(self, "slow", message.duration)
 	end
 end
 

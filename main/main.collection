@@ -7,8 +7,8 @@ instances {
   id: "Player"
   prototype: "/main/Player/Player.go"
   position {
-    x: 378.0
-    y: 565.0
+    x: 1184.0
+    y: 666.0
     z: 1.0
   }
 }
@@ -25,8 +25,8 @@ instances {
   id: "IA"
   prototype: "/main/IA/IA.go"
   position {
-    x: 983.0
-    y: 339.0
+    x: 1203.0
+    y: 236.0
     z: 1.0
   }
 }
@@ -51,3 +51,23 @@ collection_instances {
   }
 }
 scale_along_z: 0
+embedded_instances {
+  id: "factory"
+  data: "components {\n"
+  "  id: \"ItemFactory\"\n"
+  "  component: \"/main/Factories/ItemFactory.script\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"poopfactory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/main/Items/Poop.go\\\"\\n"
+  "\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"pissfactory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/main/Items/Piss.go\\\"\\n"
+  "\"\n"
+  "}\n"
+  ""
+}

@@ -39,10 +39,10 @@ local function apply_random_pulse(self, base_direction, force)
 	local dir = vmath.rotate(vmath.quat_rotation_z(radians), base_direction)
 	dir = vmath.normalize(dir)
 
-	local critical = math.random(1,20)
-	if critical >= CRITICAL_THRESHOLD then
-		force = force * critical
-	end
+	-- local critical = math.random(1,20)
+	-- if critical >= CRITICAL_THRESHOLD then
+	-- 	force = force * critical
+	-- end
 	self.velocity = dir * force
 end
 

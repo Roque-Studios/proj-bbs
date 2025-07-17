@@ -24,6 +24,8 @@ embedded_components {
   "mask: \"player\"\n"
   "mask: \"walls\"\n"
   "mask: \"ball\"\n"
+  "mask: \"Piss\"\n"
+  "mask: \"Poop\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
